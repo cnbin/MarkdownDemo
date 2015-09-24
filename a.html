@@ -1,0 +1,17 @@
+<HEAD><meta name="viewport" content="width=device-width" /><meta http-equiv="content-type" content="text/html;charset=UTF-8" /></HEAD><BODY><p>最近在使用`[[NSBundle mainBundle] pathForResource:@"name" </p>
+<p>ofType:@"type"]`时，找不到其对应的文件，文件当时是通过 </p>
+<p>右键->add files to 的方式添加到工程里面的，
+但是使用<code>[[NSBundle mainBundle] pathForResource:@"name" ofType:@"type"]</code>时，</p>
+<p>无论如何都找不到文件，经过了重启工程 、clear工程以及重启电脑等方式都无法解决问题。</p>
+<p>经过思考和测试，感觉这可能是xcode的一个bug.</p>
+<p>解决办法及原理是这样的，[NSBundle mainBundle]其获取的路径是你程序的安装路径下的资源文件位置。 在xcode中采用add file to 方式添加文件时，一般情况下xcode会自动将文件添加到你的资源文件，而且，这些文件在你工程的 <code>build Phases</code>中的 <code>copy Bundle Resources</code> 中可以查看到。但是有时候，由于xcode的问题，采用add files to 不能自动添加到你的资源文件中，这时，可以采用<code>copy Bundle Resources</code>下面的<code>“+”</code>号，手动将文件添加到你的资源文件中，这样就可以解决问题了。</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewdi9oubrxj20on0a040b.jpg" alt="img" /></p>
+<pre><code>- (IBAction)setPhoto {
+    UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+    
+    picker.delegate = self;
+    
+    [self presentViewController:picker animated:YES completion:nil];
+    }
+</code></pre>
+</Body>
